@@ -163,7 +163,7 @@ class RegisterFormViewController: UIViewController,
         DispatchQueue.main.async {
             self.present(alert, animated: true) {
                 // dismiss entire view controller
-                self.delegate?.dismissRegisterFormViewController()
+                self.delegate?.dismissRegisterFormViewController() // maybe remove
                 // display congratulations view.
             }
         }

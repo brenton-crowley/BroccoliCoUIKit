@@ -18,7 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let baseWindowScene = (scene as? UIWindowScene) else { return }
         
         let navigationController = UINavigationController()
-        let startingViewController = RegisterFormViewController()
+        let startingViewController = CelebrationViewController()
         
         navigationController.pushViewController(startingViewController, animated: true)
         
