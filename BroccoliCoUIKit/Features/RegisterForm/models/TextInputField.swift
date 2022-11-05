@@ -15,10 +15,6 @@ struct TextInputField {
     
 }
 
-extension Notification.Name {
-    static let textInputFieldDidChange = Notification.Name("TextInputFieldDidChange")
-}
-
 extension TextInputField {
     
     func isMinimumCharLength(_ charLength: Int = 3) -> Bool {

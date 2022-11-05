@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		84685E362917114A0079FD6A /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84685E352917114A0079FD6A /* UIButton+Extension.swift */; };
 		846B5F782916157D006FE06F /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846B5F772916157D006FE06F /* APIManager.swift */; };
 		846B5F7A29161992006FE06F /* Requestable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846B5F7929161992006FE06F /* Requestable.swift */; };
 		846B5F7C29161CDC006FE06F /* RegistrationRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846B5F7B29161CDC006FE06F /* RegistrationRequests.swift */; };
@@ -26,6 +27,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		84685E352917114A0079FD6A /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
 		846B5F772916157D006FE06F /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		846B5F7929161992006FE06F /* Requestable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requestable.swift; sourceTree = "<group>"; };
 		846B5F7B29161CDC006FE06F /* RegistrationRequests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationRequests.swift; sourceTree = "<group>"; };
@@ -173,6 +175,7 @@
 			children = (
 				847860632914C3350084C0C7 /* UIColor+Extensions.swift */,
 				847860662914CC500084C0C7 /* UIView+Extensions.swift */,
+				84685E352917114A0079FD6A /* UIButton+Extension.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -279,6 +282,7 @@
 				84A3F3D42915D60000FCF880 /* TextInputCell.swift in Sources */,
 				847860672914CC500084C0C7 /* UIView+Extensions.swift in Sources */,
 				84A3F3D72915D70700FCF880 /* TextInputField.swift in Sources */,
+				84685E362917114A0079FD6A /* UIButton+Extension.swift in Sources */,
 				847860642914C3350084C0C7 /* UIColor+Extensions.swift in Sources */,
 				8478605E2914A0620084C0C7 /* RegisterState.swift in Sources */,
 				84786058291499300084C0C7 /* RegisterFormViewController.swift in Sources */,

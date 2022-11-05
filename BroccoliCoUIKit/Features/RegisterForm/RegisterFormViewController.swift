@@ -90,6 +90,9 @@ class RegisterFormViewController: UIViewController,
         sendButton.configuration = config
         sendButton.tintColor = .themeAccent
         sendButton.setTitle("Register my details", for: .normal)
+        sendButton.setTitle("Making it happen...", for: .disabled)
+
+        sendButton.activityIndicatorColor = .themeForeground
         
         sendButton.addTarget(self, action: #selector(registerDetailsTapped), for: .touchUpInside)
         
@@ -109,7 +112,10 @@ class RegisterFormViewController: UIViewController,
     
     // MARK: - Send Button Target Action
     @objc private func registerDetailsTapped() {
-        print("Register details - kickstart call to back end.")
+        
+        // change button image and text to progressing
+        sendButton.isEnabled = false
+        sendButton.activityIndicatorEnabled = true
         
         Task {
             do {
@@ -117,7 +123,12 @@ class RegisterFormViewController: UIViewController,
             } catch {
                 print(error)
             }
+            
+            sendButton.isEnabled = true
+            sendButton.activityIndicatorEnabled = false
         }
+        
+//        sendButton.isEnabled = true
     }
     
     private func sendDetailsToEndpoint() async throws {
