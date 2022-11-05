@@ -8,14 +8,18 @@
 import UIKit
 
 protocol FormField: AnyObject {
-
+    
     var height: CGFloat { get }
-
+    
     func register(for tableView: UITableView)
     func dequeue(for tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell
 }
 
-class RegisterFormViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, TextInputCellDelegate {
+class RegisterFormViewController: UIViewController,
+                                  UITableViewDelegate,
+                                  UITableViewDataSource,
+                                  TextInputCellDelegate,
+                                  APIManageable {
     
     private struct Constants {
         static let buttonHeight:CGFloat = 50.0
@@ -86,7 +90,7 @@ class RegisterFormViewController: UIViewController, UITableViewDelegate, UITable
         sendButton.configuration = config
         sendButton.tintColor = .themeAccent
         sendButton.setTitle("Register my details", for: .normal)
-
+        
         sendButton.addTarget(self, action: #selector(registerDetailsTapped), for: .touchUpInside)
         
         sendButton.translatesAutoresizingMaskIntoConstraints = false
@@ -106,6 +110,25 @@ class RegisterFormViewController: UIViewController, UITableViewDelegate, UITable
     // MARK: - Send Button Target Action
     @objc private func registerDetailsTapped() {
         print("Register details - kickstart call to back end.")
+        
+        Task {
+            do {
+                try await sendDetailsToEndpoint()
+            } catch {
+                print(error)
+            }
+        }
+    }
+    
+    private func sendDetailsToEndpoint() async throws {
+        let name = fields[0].inputValue ?? "Test name"
+        let email = fields[1].inputValue ?? "name2@example.com"
+        
+        let request = PostRegistationRequest(name: name, email: email)
+        
+        guard let response = try await performRequest(request) else { throw APIError.noData }
+        
+        print(response)
     }
     
     // MARK: - UITableView Delegate
@@ -117,7 +140,7 @@ class RegisterFormViewController: UIViewController, UITableViewDelegate, UITable
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return fields.count
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TextInputCell", for: indexPath) as! TextInputCell
         cell.configure(textInputField: fields[indexPath.item])

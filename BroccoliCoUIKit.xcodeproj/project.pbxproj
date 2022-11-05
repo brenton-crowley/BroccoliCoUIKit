@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		846B5F782916157D006FE06F /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846B5F772916157D006FE06F /* APIManager.swift */; };
+		846B5F7A29161992006FE06F /* Requestable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846B5F7929161992006FE06F /* Requestable.swift */; };
+		846B5F7C29161CDC006FE06F /* RegistrationRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846B5F7B29161CDC006FE06F /* RegistrationRequests.swift */; };
 		8478603C291498090084C0C7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8478603B291498090084C0C7 /* AppDelegate.swift */; };
 		8478603E291498090084C0C7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8478603D291498090084C0C7 /* SceneDelegate.swift */; };
 		847860452914980A0084C0C7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 847860442914980A0084C0C7 /* Assets.xcassets */; };
@@ -23,6 +26,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		846B5F772916157D006FE06F /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
+		846B5F7929161992006FE06F /* Requestable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requestable.swift; sourceTree = "<group>"; };
+		846B5F7B29161CDC006FE06F /* RegistrationRequests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationRequests.swift; sourceTree = "<group>"; };
 		84786038291498090084C0C7 /* BroccoliCoUIKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BroccoliCoUIKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8478603B291498090084C0C7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8478603D291498090084C0C7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -140,6 +146,7 @@
 			isa = PBXGroup;
 			children = (
 				8478605C29149AA80084C0C7 /* requests */,
+				846B5F772916157D006FE06F /* APIManager.swift */,
 			);
 			path = api;
 			sourceTree = "<group>";
@@ -147,6 +154,8 @@
 		8478605C29149AA80084C0C7 /* requests */ = {
 			isa = PBXGroup;
 			children = (
+				846B5F7929161992006FE06F /* Requestable.swift */,
+				846B5F7B29161CDC006FE06F /* RegistrationRequests.swift */,
 			);
 			path = requests;
 			sourceTree = "<group>";
@@ -262,7 +271,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				846B5F782916157D006FE06F /* APIManager.swift in Sources */,
 				8478605A2914995C0084C0C7 /* Contact.swift in Sources */,
+				846B5F7C29161CDC006FE06F /* RegistrationRequests.swift in Sources */,
 				847860612914C1E80084C0C7 /* HomeView.swift in Sources */,
 				8478603C291498090084C0C7 /* AppDelegate.swift in Sources */,
 				84A3F3D42915D60000FCF880 /* TextInputCell.swift in Sources */,
@@ -271,6 +282,7 @@
 				847860642914C3350084C0C7 /* UIColor+Extensions.swift in Sources */,
 				8478605E2914A0620084C0C7 /* RegisterState.swift in Sources */,
 				84786058291499300084C0C7 /* RegisterFormViewController.swift in Sources */,
+				846B5F7A29161992006FE06F /* Requestable.swift in Sources */,
 				8478603E291498090084C0C7 /* SceneDelegate.swift in Sources */,
 				84786055291498F30084C0C7 /* HomeViewController.swift in Sources */,
 			);
