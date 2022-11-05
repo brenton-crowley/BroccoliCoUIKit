@@ -7,12 +7,9 @@
 
 import UIKit
 
-protocol FormField: AnyObject {
+protocol RegisterFormViewControllerDelegate {
     
-    var height: CGFloat { get }
-    
-    func register(for tableView: UITableView)
-    func dequeue(for tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell
+    func dismissRegisterFormViewController()
 }
 
 class RegisterFormViewController: UIViewController,
@@ -29,6 +26,8 @@ class RegisterFormViewController: UIViewController,
     private var tableView = UITableView(frame: .zero, style: .grouped)
     private var sendButton = UIButton()
     private var observer: NSObjectProtocol?
+    
+    var delegate: RegisterFormViewControllerDelegate?
     
     var fields: [TextInputField] = [
         TextInputField(
@@ -120,15 +119,26 @@ class RegisterFormViewController: UIViewController,
         Task {
             do {
                 try await sendDetailsToEndpoint()
+                await self.presentSuccessAlert()
             } catch {
-                print(error)
+                switch error as? APIError {
+                case .invalidResponseCode(_, _, let data):
+                    var errorMessage: ErrorMessage?
+                    if let data = data {
+                        errorMessage = try self.parseJSONData(data, type: ErrorMessage.self)
+                    }
+                    await self.presentFailureAlertWithMessage(errorMessage)
+                default:
+                    print(error)
+                }
             }
             
-            sendButton.isEnabled = true
-            sendButton.activityIndicatorEnabled = false
+            // re-enable the button
+            DispatchQueue.main.async {
+                self.sendButton.isEnabled = true
+                self.sendButton.activityIndicatorEnabled = false
+            }
         }
-        
-//        sendButton.isEnabled = true
     }
     
     private func sendDetailsToEndpoint() async throws {
@@ -140,6 +150,46 @@ class RegisterFormViewController: UIViewController,
         guard let response = try await performRequest(request) else { throw APIError.noData }
         
         print(response)
+    }
+    
+    private func presentSuccessAlert() async {
+        let alert = UIAlertController(
+            title: "Success!",
+            message: "Your details were successfully registered.",
+            preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        
+        DispatchQueue.main.async {
+            self.present(alert, animated: true) {
+                // dismiss entire view controller
+                self.delegate?.dismissRegisterFormViewController()
+                // display congratulations view.
+            }
+        }
+    }
+    
+    private func presentFailureAlertWithMessage(_ errorMessage: ErrorMessage? = nil) async {
+        
+        var message: ErrorMessage
+        if  errorMessage != nil {
+            message = errorMessage!
+        } else {
+            message = ErrorMessage(errorMessage: "Unable to register your details.")
+        }
+        
+        let alert = UIAlertController(
+            title: "Server Error",
+            message: "\(message.errorMessage)",
+            preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        
+        DispatchQueue.main.async {
+            self.present(alert, animated: true) {
+                // dismiss entire view controller
+            }
+        }
     }
     
     // MARK: - UITableView Delegate

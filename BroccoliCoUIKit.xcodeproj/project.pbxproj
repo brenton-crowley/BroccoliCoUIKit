@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		84685E362917114A0079FD6A /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84685E352917114A0079FD6A /* UIButton+Extension.swift */; };
+		84685E3829171AB60079FD6A /* ErrorMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84685E3729171AB60079FD6A /* ErrorMessage.swift */; };
 		846B5F782916157D006FE06F /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846B5F772916157D006FE06F /* APIManager.swift */; };
 		846B5F7A29161992006FE06F /* Requestable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846B5F7929161992006FE06F /* Requestable.swift */; };
 		846B5F7C29161CDC006FE06F /* RegistrationRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846B5F7B29161CDC006FE06F /* RegistrationRequests.swift */; };
@@ -28,6 +29,7 @@
 
 /* Begin PBXFileReference section */
 		84685E352917114A0079FD6A /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
+		84685E3729171AB60079FD6A /* ErrorMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMessage.swift; sourceTree = "<group>"; };
 		846B5F772916157D006FE06F /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		846B5F7929161992006FE06F /* Requestable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requestable.swift; sourceTree = "<group>"; };
 		846B5F7B29161CDC006FE06F /* RegistrationRequests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationRequests.swift; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 			isa = PBXGroup;
 			children = (
 				847860592914995C0084C0C7 /* Contact.swift */,
+				84685E3729171AB60079FD6A /* ErrorMessage.swift */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -286,6 +289,7 @@
 				847860642914C3350084C0C7 /* UIColor+Extensions.swift in Sources */,
 				8478605E2914A0620084C0C7 /* RegisterState.swift in Sources */,
 				84786058291499300084C0C7 /* RegisterFormViewController.swift in Sources */,
+				84685E3829171AB60079FD6A /* ErrorMessage.swift in Sources */,
 				846B5F7A29161992006FE06F /* Requestable.swift in Sources */,
 				8478603E291498090084C0C7 /* SceneDelegate.swift in Sources */,
 				84786055291498F30084C0C7 /* HomeViewController.swift in Sources */,
