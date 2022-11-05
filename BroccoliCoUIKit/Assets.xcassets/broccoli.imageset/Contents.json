@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "logo.png",
+      "filename" : "broccoli.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "logo@2x.png",
+      "filename" : "broccoli@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "logo@3x.png",
+      "filename" : "broccoli@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

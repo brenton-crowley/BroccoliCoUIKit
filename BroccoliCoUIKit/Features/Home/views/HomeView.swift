@@ -141,8 +141,6 @@ class HomeView: UIView {
     
     @objc func requestButtonTapped() {
         
-        print("Request button tapped.")
-        
         switch registerState {
         case .unregistered:
             delegate?.enterDetails()

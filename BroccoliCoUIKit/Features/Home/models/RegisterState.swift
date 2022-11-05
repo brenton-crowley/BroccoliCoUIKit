@@ -35,6 +35,8 @@ enum RegisterState: Int {
 extension UserDefaults {
    
     static var registerStateKey = "registerStateKey"
+    static var defaultsNameKey = "defaultsNameKey"
+    static var defaultsEmailKey = "defaultsEmailKey"
     
     static func readRegisterState() -> RegisterState {
         
