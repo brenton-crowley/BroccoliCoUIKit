@@ -48,6 +48,8 @@ class RegisterFormViewController: UIViewController,
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.view.backgroundColor = .themeBackground
+        
         // Do any additional setup after loading the view.
         NSLayoutConstraint.activate(
             setupTableView() +
@@ -91,7 +93,7 @@ class RegisterFormViewController: UIViewController,
         sendButton.tintColor = .themeAccent
         sendButton.setTitle("Register my details", for: .normal)
         sendButton.setTitle("Making it happen...", for: .disabled)
-
+        
         sendButton.activityIndicatorColor = .themeForeground
         
         sendButton.addTarget(self, action: #selector(registerDetailsTapped), for: .touchUpInside)
@@ -101,7 +103,7 @@ class RegisterFormViewController: UIViewController,
         self.view.addSubview(sendButton)
         
         let constaints: [NSLayoutConstraint] = [
-            sendButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Constants.buttonHeight - Constants.xOffset),
+            sendButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Constants.buttonHeight),
             sendButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -Constants.xOffset),
             sendButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: Constants.xOffset),
         ]
@@ -112,6 +114,10 @@ class RegisterFormViewController: UIViewController,
     
     // MARK: - Send Button Target Action
     @objc private func registerDetailsTapped() {
+        
+        tableView.reloadData()
+        
+        guard isValidForm() else { return }
         
         // change button image and text to progressing
         sendButton.isEnabled = false
@@ -142,6 +148,20 @@ class RegisterFormViewController: UIViewController,
         }
     }
     
+    @discardableResult
+    private func isValidForm() -> Bool {
+        
+        // valid
+
+        fields[0].validity = fields[0].isMinimumCharLength() ? .valid : .invalid
+        fields[1].validity = fields[1].isValidEmailFormat() ? .valid : .invalid
+        fields[2].validity = fields[2].matchesFieldValue(fields[1].inputValue ?? "") ? .valid : .invalid
+        
+        return fields.allSatisfy { field in
+            field.validity == .valid
+        }
+    }
+    
     private func sendDetailsToEndpoint() async throws {
         let name = fields[0].inputValue ?? "Test name"
         let email = fields[1].inputValue ?? "name2@example.com"
@@ -159,10 +179,17 @@ class RegisterFormViewController: UIViewController,
             message: "Your details were successfully registered.",
             preferredStyle: .alert)
         
+        
+        if let name = fields[0].inputValue,
+           let email = fields[1].inputValue {
+            UserDefaults.setRegisteredDetails(name: name, email: email)
+        }
+        
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { alertAction in
             // present the celebration view
             DispatchQueue.main.async {
                 let celebration = CelebrationViewController()
+                celebration.celebrationMessage = "Woot, you're in!"
                 celebration.delegate = self
                 celebration.modalPresentationStyle = .fullScreen
                 self.present(celebration, animated: true)
@@ -223,11 +250,20 @@ class RegisterFormViewController: UIViewController,
         }
     }
     
+    func cell(_ cell: TextInputCell, didEndEditing value: String?) {
+//        isValidForm()
+    }
+    
     // MARK: - CelebrationView Delegate
     func dismissCelebrationViewController() {
         print("dismiss celebration view controller and dismiss this view controller")
         dismiss(animated: true)
         
-        self.delegate?.dismissRegisterFormViewController()
+        switch UserDefaults.readRegisterState() {
+        case .registered(_):
+            self.delegate?.dismissRegisterFormViewController()
+        default:
+            break
+        }
     }
 }

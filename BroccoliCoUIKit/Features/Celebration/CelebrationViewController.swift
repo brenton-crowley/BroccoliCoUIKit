@@ -13,12 +13,14 @@ protocol CelebrationViewDelegate: AnyObject {
 
 class CelebrationViewController: UIViewController {
 
+    var celebrationMessage: String?
+    
     weak var delegate: CelebrationViewDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let celebrationView = CelebrationView(celebrationText: "Woot! You Did It!")
+        let celebrationView = CelebrationView(celebrationText: celebrationMessage ?? "Woohoo!")
         
         self.view.addSubview(celebrationView)
         

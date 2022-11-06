@@ -9,9 +9,14 @@ import Foundation
 
 struct TextInputField {
     
+    enum Validity {
+        case empty, valid, invalid
+    }
+    
     var nameText: String
     var inputValue: String?
     var placeholderText: String?
+    var validity = Validity.empty
     
 }
 

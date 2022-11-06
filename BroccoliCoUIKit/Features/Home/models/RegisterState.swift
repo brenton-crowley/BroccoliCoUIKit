@@ -7,22 +7,22 @@
 
 import Foundation
 
-enum RegisterState: Int {
+enum RegisterState {
     
     case unregistered
-    case registered
+    case registered(name: String)
     
     var content: Content {
         
         switch self {
         case .unregistered:
             return Content(heading: "Hello!",
-                        description: "Be notified for exclusive access when you enter your name and email.",
-                        buttonText: "Enter details")
-        case .registered:
-            return Content(heading: "Goodbye?",
-                        description: "Changed your mind and don't want to stay in the loop? Remove your registeration details below.",
-                        buttonText: "Remove details")
+                           description: "Be notified for exclusive access when you enter your name and email.",
+                           buttonText: "Enter details")
+        case .registered(let name):
+            return Content(heading: "Hi \(name)!",
+                           description: "You're already in the loop for pre-release. If you would like to opt-out, remove your details below.",
+                           buttonText: "Remove details")
         }
         
     }
@@ -33,23 +33,29 @@ enum RegisterState: Int {
 }
 
 extension UserDefaults {
-   
-    static var registerStateKey = "registerStateKey"
+    
     static var defaultsNameKey = "defaultsNameKey"
     static var defaultsEmailKey = "defaultsEmailKey"
     
     static func readRegisterState() -> RegisterState {
         
         let defaults = UserDefaults.standard
-        let intValue = defaults.integer(forKey: UserDefaults.registerStateKey)
+        if let nameValue = defaults.string(forKey: UserDefaults.defaultsNameKey),
+           nameValue.count > 0,
+           let emailValue = defaults.string(forKey: UserDefaults.defaultsEmailKey),
+           emailValue.count > 0 {
+            print("Registered name: \(nameValue) and email \(emailValue)")
+            return .registered(name: nameValue)
+        }
         
-        return RegisterState(rawValue: intValue) ?? .unregistered
+        return .unregistered
         
     }
     
-    static func setRegisterState(newRegisterState: RegisterState) {
+    static func setRegisteredDetails(name: String?, email: String?) {
         let defaults = UserDefaults.standard
-        defaults.setValue(newRegisterState.rawValue, forKey: UserDefaults.registerStateKey)
+        defaults.setValue(name, forKey: UserDefaults.defaultsNameKey)
+        defaults.setValue(email, forKey: UserDefaults.defaultsEmailKey)
     }
     
 }

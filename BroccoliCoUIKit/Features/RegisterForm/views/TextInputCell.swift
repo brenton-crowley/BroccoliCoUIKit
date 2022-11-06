@@ -10,6 +10,7 @@ import UIKit
 protocol TextInputCellDelegate: AnyObject {
 
     func cell(_ cell: TextInputCell, didChangeValue value: String?)
+    func cell(_ cell: TextInputCell, didEndEditing value: String?)
 }
 
 class TextInputCell: UITableViewCell {
@@ -19,7 +20,7 @@ class TextInputCell: UITableViewCell {
     }
     
     private let titleLabel = UILabel()
-    private let textField = UITextField()
+    private(set) var textField = UITextField()
     
     var cellID: String? { titleLabel.text }
     
@@ -46,7 +47,6 @@ class TextInputCell: UITableViewCell {
     
     private func setupTitle() -> [NSLayoutConstraint] {
         
-        titleLabel.textColor = .themeForeground
         titleLabel.layer.opacity = 0.7
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -81,13 +81,31 @@ class TextInputCell: UITableViewCell {
         
         textField.textAlignment = .right
         textField.addTarget(self, action: #selector(textFieldEditingChanged), for: .editingChanged)
+        textField.addTarget(self, action: #selector(textFieldEditingEnded), for: .editingDidEnd)
         
         titleLabel.text = textInputField.nameText
         textField.text = textInputField.inputValue ?? ""
         textField.placeholder = textInputField.placeholderText ?? ""
+        
+        setValidity(textInputField.validity)
+    }
+    
+    private func setValidity(_ validity: TextInputField.Validity) {
+        
+        switch validity {
+        case .invalid:
+            titleLabel.textColor = .themeSecondary
+        default:
+            titleLabel.textColor = .themeForeground
+        }
+        
     }
     
     @objc private func textFieldEditingChanged(_ textField: UITextField) {
         delegate?.cell(self, didChangeValue: textField.text)
+    }
+    
+    @objc private func textFieldEditingEnded(_ textField: UITextField) {
+        delegate?.cell(self, didEndEditing: textField.text)
     }
 }

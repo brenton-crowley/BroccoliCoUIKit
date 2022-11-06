@@ -24,7 +24,10 @@ class HomeView: UIView {
         
     }
     
-    private var registerState: RegisterState
+    var registerState: RegisterState {
+        didSet { updateContent() }
+    }
+    
     private var delegate: RequestButtonDelegate?
     
     // header
@@ -90,12 +93,18 @@ class HomeView: UIView {
             setupHeader() +
             setupRequestButton()
         )
+        
+        updateContent()
+    }
+    
+    private func updateContent() {
+        header.text = registerState.content.heading
+        info.text = registerState.content.description
+        requestButton.setTitle(registerState.content.buttonText, for: .normal)
     }
     
     private func setupHeader() -> [NSLayoutConstraint] {
         addSubview(header)
-        
-        header.text = registerState.content.heading
         
         let constraints:[NSLayoutConstraint] = [
             header.centerXAnchor.constraint(equalTo: self.centerXAnchor),
@@ -107,8 +116,6 @@ class HomeView: UIView {
     
     private func setupInfo() -> [NSLayoutConstraint] {
         addSubview(info)
-        
-        info.text = registerState.content.description
         
         let constraints = [
             info.leftAnchor.constraint(equalTo: self.leftAnchor, constant: Constants.xOffset),
@@ -122,7 +129,6 @@ class HomeView: UIView {
     private func setupRequestButton() -> [NSLayoutConstraint] {
         addSubview(requestButton)
         
-        requestButton.setTitle(registerState.content.buttonText, for: .normal)
         requestButton.addTarget(self, action: #selector(self.requestButtonTapped), for: .touchUpInside)
         
         let constraints:[NSLayoutConstraint] = [

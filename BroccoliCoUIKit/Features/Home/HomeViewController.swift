@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HomeViewController: UIViewController, RequestButtonDelegate {
+class HomeViewController: UIViewController, RequestButtonDelegate, RegisterFormViewControllerDelegate, CelebrationViewDelegate {
     
     private struct Constants {
         static let xOffset:CGFloat = 20.0
@@ -47,12 +47,43 @@ class HomeViewController: UIViewController, RequestButtonDelegate {
         
     }
     
+    private func updateHomeView() {
+        homeView.registerState = UserDefaults.readRegisterState()
+        
+        
+    }
+    
     // MARK: - RequestButtonDelegate
     func enterDetails() {
         print("Enter details...")
+        // present the modal to enter details
+        let registerFormViewController = RegisterFormViewController()
+//        registerFormViewController.modalPresentationStyle = .fullScreen
+        registerFormViewController.delegate = self
+        
+        present(registerFormViewController, animated: true)
     }
     
     func deregisterDetails() {
-        print("Deregister details...")
+        UserDefaults.setRegisteredDetails(name: nil, email: nil)
+        
+        // present the congratulations view
+        let confirmationViewController = CelebrationViewController()
+        confirmationViewController.celebrationMessage = "Details removed."
+        confirmationViewController.modalPresentationStyle = .fullScreen
+        confirmationViewController.delegate = self
+        present(confirmationViewController, animated: true)
+    }
+    
+    // MARK: - RegisterFormViewController Delegate
+    func dismissRegisterFormViewController() {
+        dismiss(animated: true)
+        updateHomeView()
+    }
+    
+    // MARK: - CelebrationViewController Delegate
+    func dismissCelebrationViewController() {
+        dismiss(animated: true)
+        updateHomeView()    
     }
 }
