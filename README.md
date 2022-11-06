@@ -15,3 +15,4 @@ https://user-images.githubusercontent.com/1415689/200156424-940f8a5e-f7d8-4897-8
 ## For Next Time
 - I'd like to have an animated gif of the broccoli perhaps doing a floss dance move for the celebration screen.
 - Make a more reactive user input validation possibly using combine.
+- Improved form validation feedback. Currently, field's text turns red and the requirements are in the placeholder. 
