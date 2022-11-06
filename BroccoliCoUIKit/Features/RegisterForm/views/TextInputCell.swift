@@ -18,19 +18,24 @@ class TextInputCell: UITableViewCell {
     private struct Constants {
         static let inset:CGFloat = 16.0
         static let fontSize:CGFloat = 16.0
+        static let labelOpacity: Float = 0.7
     }
     
     private let titleLabel: UILabel = {
         var label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: Constants.fontSize)
+        label.layer.opacity = Constants.labelOpacity
         return label
     }()
+    
     private(set) var textField = UITextField()
     
     var cellID: String? { titleLabel.text }
     
     weak var delegate: TextInputCellDelegate?
 
+    // MARK: - Initialisers
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -50,9 +55,8 @@ class TextInputCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Setup Constraints
     private func setupTitle() -> [NSLayoutConstraint] {
-        
-        titleLabel.layer.opacity = 0.7
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         
@@ -82,6 +86,8 @@ class TextInputCell: UITableViewCell {
         return constraints
     }
     
+    // MARK: - Helper Functions
+    
     func configure(textInputField: TextInputField) {
         
         textField.textAlignment = .right
@@ -109,6 +115,7 @@ class TextInputCell: UITableViewCell {
         
     }
     
+    // MARK: - Target Actions
     @objc private func textFieldEditingChanged(_ textField: UITextField) {
         delegate?.cell(self, didChangeValue: textField.text)
     }

@@ -50,3 +50,20 @@ extension TextInputField {
         return inputValue == value
     }
 }
+
+extension TextInputField {
+    static let fields: [TextInputField] = [
+        TextInputField(
+            nameText: "Full name",
+            inputValue: nil,
+            placeholderText: "Minimum 3 characters"),
+        TextInputField(
+            nameText: "Email",
+            inputValue: nil,
+            placeholderText: "master.broc@broccoli.co"),
+        TextInputField(
+            nameText: "Confirm email",
+            inputValue: nil,
+            placeholderText: "Same email as above"),
+    ]
+}

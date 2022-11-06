@@ -38,7 +38,6 @@ class HomeView: UIView {
         view.textColor = .themeForeground
         view.font = UIFont.preferredFont(forTextStyle: .largeTitle)
         view.adjustsFontForContentSizeCategory = true
-        view.translatesAutoresizingMaskIntoConstraints = false
         
         return view
     }()
@@ -53,27 +52,14 @@ class HomeView: UIView {
         view.textAlignment = .center
         view.font = UIFont.preferredFont(forTextStyle: .body)
         view.adjustsFontForContentSizeCategory = true
-        view.translatesAutoresizingMaskIntoConstraints = false
         
         return view
     }()
     
     // requestButton
-    private var requestButton: UIButton = {
-       
-        var config = UIButton.Configuration.filled()
-        config.buttonSize = .large
-        config.cornerStyle = .capsule
-        
-        var button = UIButton(configuration: config)
-        button.tintColor = .themeAccent
-
-        button.translatesAutoresizingMaskIntoConstraints = false
-        
-        return button
-        
-    }()
+    private var requestButton = UIButton.makeActionButton()
     
+    // MARK: - Initialisers
     
     required init(registerState: RegisterState, delegate: RequestButtonDelegate? = nil){
         self.registerState = registerState
@@ -82,10 +68,21 @@ class HomeView: UIView {
         
         setupView()
     }
-
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: - Helper Functions
+    
+    func setDelegate(delegate: RequestButtonDelegate) { self.delegate = delegate }
+    
+    private func updateContent() {
+        header.text = registerState.content.heading
+        info.text = registerState.content.description
+        requestButton.setTitle(registerState.content.buttonText, for: .normal)
+    }
+    
+    // MARK: - Define Constraints for Views
     
     private func setupView() {
         NSLayoutConstraint.activate(
@@ -97,14 +94,10 @@ class HomeView: UIView {
         updateContent()
     }
     
-    private func updateContent() {
-        header.text = registerState.content.heading
-        info.text = registerState.content.description
-        requestButton.setTitle(registerState.content.buttonText, for: .normal)
-    }
-    
     private func setupHeader() -> [NSLayoutConstraint] {
         addSubview(header)
+        
+        header.translatesAutoresizingMaskIntoConstraints = false
         
         let constraints:[NSLayoutConstraint] = [
             header.centerXAnchor.constraint(equalTo: self.centerXAnchor),
@@ -117,6 +110,8 @@ class HomeView: UIView {
     private func setupInfo() -> [NSLayoutConstraint] {
         addSubview(info)
         
+        info.translatesAutoresizingMaskIntoConstraints = false
+        
         let constraints = [
             info.leftAnchor.constraint(equalTo: self.leftAnchor, constant: Constants.xOffset),
             info.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -Constants.xOffset),
@@ -128,6 +123,8 @@ class HomeView: UIView {
     
     private func setupRequestButton() -> [NSLayoutConstraint] {
         addSubview(requestButton)
+        
+        requestButton.translatesAutoresizingMaskIntoConstraints = false
         
         requestButton.addTarget(self, action: #selector(self.requestButtonTapped), for: .touchUpInside)
         
@@ -143,7 +140,7 @@ class HomeView: UIView {
         
     }
     
-    func setDelegate(delegate: RequestButtonDelegate) { self.delegate = delegate }
+    // MARK: Target Action for Request Button
     
     @objc func requestButtonTapped() {
         

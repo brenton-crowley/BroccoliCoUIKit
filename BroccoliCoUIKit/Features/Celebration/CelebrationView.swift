@@ -37,6 +37,7 @@ class CelebrationView: UIView {
     
     private var celebrationText: String
     
+    // MARK: - Initialiser
     required init(celebrationText: String){
         
         self.celebrationText = celebrationText
@@ -49,7 +50,9 @@ class CelebrationView: UIView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
+    
+    // MARK: - Constraints
     private func setupView() {
         self.backgroundColor = .themeBackground
         

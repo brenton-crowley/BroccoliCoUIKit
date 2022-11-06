@@ -22,28 +22,19 @@ class RegisterFormViewController: UIViewController,
     private struct Constants {
         static let buttonHeight:CGFloat = 50.0
         static let xOffset:CGFloat = 20.0
+        static let cellReuseIdentifier = "TextInputCell"
     }
     
     private var tableView = UITableView(frame: .zero, style: .grouped)
-    private var sendButton = UIButton()
-    private var observer: NSObjectProtocol?
+    private var sendButton = UIButton.makeActionButton()
     
     weak var delegate: RegisterFormViewControllerDelegate?
     
-    var fields: [TextInputField] = [
-        TextInputField(
-            nameText: "Full name",
-            inputValue: nil,
-            placeholderText: "Minimum 3 characters"),
-        TextInputField(
-            nameText: "Email",
-            inputValue: nil,
-            placeholderText: "master.broc@broccoli.co"),
-        TextInputField(
-            nameText: "Confirm email",
-            inputValue: nil,
-            placeholderText: "Same email as above"),
-    ]
+    var fields: [TextInputField] = TextInputField.fields
+
+    var nameField: TextInputField { fields[0] }
+    var emailField: TextInputField { fields[1] }
+    var confirmField: TextInputField { fields[2] }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,16 +48,13 @@ class RegisterFormViewController: UIViewController,
         )
     }
     
-    private func didUpdateModel() {
-        DispatchQueue.main.async { self.tableView.reloadData() }
-    }
-    
+    // MARK: - Setup Constraints
     func setupTableView() -> [NSLayoutConstraint] {
         
         tableView.delegate = self
         tableView.dataSource = self
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(TextInputCell.self, forCellReuseIdentifier: "TextInputCell")
+        tableView.register(TextInputCell.self, forCellReuseIdentifier: Constants.cellReuseIdentifier)
         tableView.backgroundColor = .themeBackground
         
         self.view.addSubview(tableView)
@@ -84,12 +72,7 @@ class RegisterFormViewController: UIViewController,
     
     private func setupButton() -> [NSLayoutConstraint] {
         
-        var config = UIButton.Configuration.filled()
-        config.buttonSize = .large
-        config.cornerStyle = .capsule
         
-        sendButton.configuration = config
-        sendButton.tintColor = .themeAccent
         sendButton.setTitle("Register my details", for: .normal)
         sendButton.setTitle("Making it happen...", for: .disabled)
         
@@ -111,7 +94,7 @@ class RegisterFormViewController: UIViewController,
         
     }
     
-    // MARK: - Send Button Target Action
+    // MARK: - Send Button Target Action & API Call
     @objc private func registerDetailsTapped() {
         
         tableView.reloadData()
@@ -121,7 +104,9 @@ class RegisterFormViewController: UIViewController,
         // change button image and text to progressing
         sendButton.isEnabled = false
         sendButton.activityIndicatorEnabled = true
+        self.isModalInPresentation = true // so that user cannot lose their submission while waiting
         
+        // Kick off an asyn task to send the email and name to the API
         Task {
             do {
                 try await sendDetailsToEndpoint()
@@ -139,31 +124,18 @@ class RegisterFormViewController: UIViewController,
                 }
             }
             
-            // re-enable the button
+            // re-enable the button after success or failure
             DispatchQueue.main.async {
+                self.isModalInPresentation = false
                 self.sendButton.isEnabled = true
                 self.sendButton.activityIndicatorEnabled = false
             }
         }
     }
     
-    @discardableResult
-    private func isValidForm() -> Bool {
-        
-        // valid
-
-        fields[0].validity = fields[0].isMinimumCharLength() ? .valid : .invalid
-        fields[1].validity = fields[1].isValidEmailFormat() ? .valid : .invalid
-        fields[2].validity = fields[2].matchesFieldValue(fields[1].inputValue ?? "") ? .valid : .invalid
-        
-        return fields.allSatisfy { field in
-            field.validity == .valid
-        }
-    }
-    
     private func sendDetailsToEndpoint() async throws {
-        let name = fields[0].inputValue ?? "Test name"
-        let email = fields[1].inputValue ?? "name2@example.com"
+        let name = nameField.inputValue ?? ""
+        let email = emailField.inputValue ?? ""
         
         let request = PostRegistationRequest(name: name, email: email)
         
@@ -172,18 +144,26 @@ class RegisterFormViewController: UIViewController,
         print(response)
     }
     
+    // MARK: - Form Validation
+    @discardableResult
+    private func isValidForm() -> Bool {
+        
+        // set explicitly becaus structs
+        fields[0].validity = nameField.isMinimumCharLength() ? .valid : .invalid
+        fields[1].validity = emailField.isValidEmailFormat() ? .valid : .invalid
+        fields[2].validity = confirmField.matchesFieldValue(emailField.inputValue ?? "") ? .valid : .invalid
+        
+        return fields.allSatisfy { $0.validity == .valid }
+    }
+    
+    // MARK: - Alerts
     private func presentSuccessAlert() async {
-        let alert = UIAlertController(
-            title: "Success!",
-            message: "Your details were successfully registered.",
-            preferredStyle: .alert)
         
+        writeToUserDefaults()
+
+        let alert = UIAlertController.Network.success.makeAlert
         
-        if let name = fields[0].inputValue,
-           let email = fields[1].inputValue {
-            UserDefaults.setRegisteredDetails(name: name, email: email)
-        }
-        
+        // Add OK action that presents a celebration view upon action taken.
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { alertAction in
             // present the celebration view
             DispatchQueue.main.async {
@@ -209,17 +189,19 @@ class RegisterFormViewController: UIViewController,
             message = ErrorMessage(errorMessage: "Unable to register your details.")
         }
         
-        let alert = UIAlertController(
-            title: "Server Error",
-            message: "\(message.errorMessage)",
-            preferredStyle: .alert)
+        let alert = UIAlertController.Network.failure(message: message.errorMessage).makeAlert
         
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         
-        DispatchQueue.main.async {
-            self.present(alert, animated: true) {
-                // dismiss entire view controller
-            }
+        DispatchQueue.main.async { self.present(alert, animated: true) }
+    }
+    
+    // MARK: - UserDefaults Helper
+    private func writeToUserDefaults() {
+        // Since the call was successul, write to user defaults.
+        if let name = nameField.inputValue,
+           let email = emailField.inputValue {
+            UserDefaults.setRegisteredDetails(name: name, email: email)
         }
     }
     
@@ -234,7 +216,7 @@ class RegisterFormViewController: UIViewController,
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TextInputCell", for: indexPath) as! TextInputCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellReuseIdentifier, for: indexPath) as! TextInputCell
         cell.configure(textInputField: fields[indexPath.item])
         cell.delegate = self
         return cell

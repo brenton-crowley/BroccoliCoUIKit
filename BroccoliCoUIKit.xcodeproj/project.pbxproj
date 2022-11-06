@@ -11,6 +11,7 @@
 		84685E3829171AB60079FD6A /* ErrorMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84685E3729171AB60079FD6A /* ErrorMessage.swift */; };
 		84685E3A291723EE0079FD6A /* CelebrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84685E39291723EE0079FD6A /* CelebrationView.swift */; };
 		84685E3D291726EF0079FD6A /* CelebrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84685E3C291726EF0079FD6A /* CelebrationViewController.swift */; };
+		84685E432917772F0079FD6A /* UIAlertActionController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84685E422917772F0079FD6A /* UIAlertActionController+Extension.swift */; };
 		846B5F782916157D006FE06F /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846B5F772916157D006FE06F /* APIManager.swift */; };
 		846B5F7A29161992006FE06F /* Requestable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846B5F7929161992006FE06F /* Requestable.swift */; };
 		846B5F7C29161CDC006FE06F /* RegistrationRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846B5F7B29161CDC006FE06F /* RegistrationRequests.swift */; };
@@ -33,6 +34,7 @@
 		84685E3729171AB60079FD6A /* ErrorMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMessage.swift; sourceTree = "<group>"; };
 		84685E39291723EE0079FD6A /* CelebrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CelebrationView.swift; sourceTree = "<group>"; };
 		84685E3C291726EF0079FD6A /* CelebrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CelebrationViewController.swift; sourceTree = "<group>"; };
+		84685E422917772F0079FD6A /* UIAlertActionController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertActionController+Extension.swift"; sourceTree = "<group>"; };
 		846B5F772916157D006FE06F /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		846B5F7929161992006FE06F /* Requestable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requestable.swift; sourceTree = "<group>"; };
 		846B5F7B29161CDC006FE06F /* RegistrationRequests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationRequests.swift; sourceTree = "<group>"; };
@@ -190,6 +192,7 @@
 				847860632914C3350084C0C7 /* UIColor+Extensions.swift */,
 				847860662914CC500084C0C7 /* UIView+Extensions.swift */,
 				84685E352917114A0079FD6A /* UIButton+Extension.swift */,
+				84685E422917772F0079FD6A /* UIAlertActionController+Extension.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -288,6 +291,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84685E432917772F0079FD6A /* UIAlertActionController+Extension.swift in Sources */,
 				846B5F782916157D006FE06F /* APIManager.swift in Sources */,
 				84685E3A291723EE0079FD6A /* CelebrationView.swift in Sources */,
 				846B5F7C29161CDC006FE06F /* RegistrationRequests.swift in Sources */,
