@@ -7,8 +7,14 @@
 
 import UIKit
 
+protocol CelebrationViewDelegate: AnyObject {
+    func dismissCelebrationViewController()
+}
+
 class CelebrationViewController: UIViewController {
 
+    weak var delegate: CelebrationViewDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -18,8 +24,15 @@ class CelebrationViewController: UIViewController {
         
         celebrationView.translatesAutoresizingMaskIntoConstraints = false
         
+        celebrationView.actionButton.addTarget(self, action: #selector(celegrationViewActionButtonTapped), for: .touchUpInside)
+        
         let constraints: [NSLayoutConstraint] = celebrationView.constraintsForAnchoringTo(boundsOf: self.view)
         
         NSLayoutConstraint.activate(constraints)
+    }
+    
+    @objc private func celegrationViewActionButtonTapped() {
+        print("celegrationViewActionButtonTapped")
+        self.delegate?.dismissCelebrationViewController()
     }
 }

@@ -104,3 +104,21 @@ public extension UIButton {
         })
     }
 }
+
+extension UIButton {
+    
+    static func makeActionButton() -> UIButton {
+        
+        var config = UIButton.Configuration.filled()
+        config.buttonSize = .large
+        config.cornerStyle = .capsule
+        
+        let button = UIButton(configuration: config)
+        button.tintColor = .themeAccent
+
+        button.translatesAutoresizingMaskIntoConstraints = false
+        
+        return button
+    }
+    
+}

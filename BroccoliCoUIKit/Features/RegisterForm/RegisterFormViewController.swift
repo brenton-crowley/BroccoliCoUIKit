@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol RegisterFormViewControllerDelegate {
+protocol RegisterFormViewControllerDelegate: AnyObject {
     
     func dismissRegisterFormViewController()
 }
@@ -16,6 +16,7 @@ class RegisterFormViewController: UIViewController,
                                   UITableViewDelegate,
                                   UITableViewDataSource,
                                   TextInputCellDelegate,
+                                  CelebrationViewDelegate,
                                   APIManageable {
     
     private struct Constants {
@@ -27,7 +28,7 @@ class RegisterFormViewController: UIViewController,
     private var sendButton = UIButton()
     private var observer: NSObjectProtocol?
     
-    var delegate: RegisterFormViewControllerDelegate?
+    weak var delegate: RegisterFormViewControllerDelegate?
     
     var fields: [TextInputField] = [
         TextInputField(
@@ -158,14 +159,18 @@ class RegisterFormViewController: UIViewController,
             message: "Your details were successfully registered.",
             preferredStyle: .alert)
         
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { alertAction in
+            // present the celebration view
+            DispatchQueue.main.async {
+                let celebration = CelebrationViewController()
+                celebration.delegate = self
+                celebration.modalPresentationStyle = .fullScreen
+                self.present(celebration, animated: true)
+            }
+        }))
         
         DispatchQueue.main.async {
-            self.present(alert, animated: true) {
-                // dismiss entire view controller
-                self.delegate?.dismissRegisterFormViewController() // maybe remove
-                // display congratulations view.
-            }
+            self.present(alert, animated: true)
         }
     }
     
@@ -216,5 +221,13 @@ class RegisterFormViewController: UIViewController,
            let cellIndex = fields.firstIndex(where: { $0.nameText == cellID }) {
             fields[cellIndex].inputValue = value
         }
+    }
+    
+    // MARK: - CelebrationView Delegate
+    func dismissCelebrationViewController() {
+        print("dismiss celebration view controller and dismiss this view controller")
+        dismiss(animated: true)
+        
+        self.delegate?.dismissRegisterFormViewController()
     }
 }
