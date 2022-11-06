@@ -44,7 +44,6 @@ extension UserDefaults {
            nameValue.count > 0,
            let emailValue = defaults.string(forKey: UserDefaults.defaultsEmailKey),
            emailValue.count > 0 {
-            print("Registered name: \(nameValue) and email \(emailValue)")
             return .registered(name: nameValue)
         }
         

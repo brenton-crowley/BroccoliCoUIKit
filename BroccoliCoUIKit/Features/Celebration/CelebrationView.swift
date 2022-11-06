@@ -12,8 +12,8 @@ class CelebrationView: UIView {
     private struct Constants {
         
         static let xPadding: CGFloat = 20.0
-        static let yOffset: CGFloat = 50.0
-        
+        static let yOffset: CGFloat = 40.0
+        static let imageHeightMultiplier: CGFloat = 0.4
     }
 
     private var imageView: UIImageView = {
@@ -67,9 +67,10 @@ class CelebrationView: UIView {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
         let contraints: [NSLayoutConstraint] = [
+            imageView.heightAnchor.constraint(lessThanOrEqualTo: self.heightAnchor, multiplier: Constants.imageHeightMultiplier),
             imageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Constants.xPadding),
             imageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Constants.xPadding),
-            imageView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+            imageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
         ]
         
         return contraints
@@ -83,7 +84,7 @@ class CelebrationView: UIView {
         header.translatesAutoresizingMaskIntoConstraints = false
         
         let contraints: [NSLayoutConstraint] = [
-            header.bottomAnchor.constraint(equalTo: imageView.topAnchor, constant: -Constants.yOffset),
+            header.bottomAnchor.constraint(lessThanOrEqualTo: self.imageView.topAnchor, constant: -Constants.yOffset),
             header.centerXAnchor.constraint(equalTo: self.centerXAnchor)
         ]
         
@@ -95,10 +96,9 @@ class CelebrationView: UIView {
         addSubview(actionButton)
         
         actionButton.setTitle("Return home", for: .normal)
-//        actionButton.addTarget(self, action: #selector(actionButtonTapped), for: .touchUpInside)
         
         let contraints: [NSLayoutConstraint] = [
-            actionButton.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: Constants.yOffset),
+            actionButton.topAnchor.constraint(lessThanOrEqualTo: imageView.bottomAnchor, constant: Constants.yOffset),
             actionButton.centerXAnchor.constraint(equalTo: self.centerXAnchor)
         ]
         

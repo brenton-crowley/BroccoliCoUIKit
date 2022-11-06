@@ -34,7 +34,6 @@ class CelebrationViewController: UIViewController {
     }
     
     @objc private func celegrationViewActionButtonTapped() {
-        print("celegrationViewActionButtonTapped")
         self.delegate?.dismissCelebrationViewController()
     }
 }

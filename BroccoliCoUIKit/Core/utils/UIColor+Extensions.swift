@@ -15,5 +15,6 @@ extension UIColor {
     static let themeForeground = UIColor(named: "ForegroundColor")
     static let themeSecondary = UIColor(named: "SecondaryColor")
     static let themeTertiary = UIColor(named: "TertiaryColor")
+    static let themeInvalid = UIColor(named: "InvalidColor")
     
 }

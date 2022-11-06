@@ -55,10 +55,9 @@ class HomeViewController: UIViewController, RequestButtonDelegate, RegisterFormV
     
     // MARK: - RequestButtonDelegate
     func enterDetails() {
-        print("Enter details...")
+        
         // present the modal to enter details
         let registerFormViewController = RegisterFormViewController()
-//        registerFormViewController.modalPresentationStyle = .fullScreen
         registerFormViewController.delegate = self
         
         present(registerFormViewController, animated: true)

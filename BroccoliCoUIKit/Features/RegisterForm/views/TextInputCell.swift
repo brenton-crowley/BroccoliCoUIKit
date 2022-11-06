@@ -17,9 +17,14 @@ class TextInputCell: UITableViewCell {
 
     private struct Constants {
         static let inset:CGFloat = 16.0
+        static let fontSize:CGFloat = 16.0
     }
     
-    private let titleLabel = UILabel()
+    private let titleLabel: UILabel = {
+        var label = UILabel()
+        label.font = UIFont.boldSystemFont(ofSize: Constants.fontSize)
+        return label
+    }()
     private(set) var textField = UITextField()
     
     var cellID: String? { titleLabel.text }
@@ -94,9 +99,12 @@ class TextInputCell: UITableViewCell {
         
         switch validity {
         case .invalid:
-            titleLabel.textColor = .themeSecondary
+            titleLabel.textColor = .themeInvalid
+            textField.textColor = .themeInvalid
+            
         default:
             titleLabel.textColor = .themeForeground
+            textField.textColor = .themeForeground
         }
         
     }

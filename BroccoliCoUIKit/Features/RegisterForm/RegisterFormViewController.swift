@@ -58,7 +58,6 @@ class RegisterFormViewController: UIViewController,
     }
     
     private func didUpdateModel() {
-        print("did update model")
         DispatchQueue.main.async { self.tableView.reloadData() }
     }
     
@@ -256,7 +255,7 @@ class RegisterFormViewController: UIViewController,
     
     // MARK: - CelebrationView Delegate
     func dismissCelebrationViewController() {
-        print("dismiss celebration view controller and dismiss this view controller")
+
         dismiss(animated: true)
         
         switch UserDefaults.readRegisterState() {
