@@ -89,7 +89,7 @@ class HomeViewController: UIViewController, RequestButtonDelegate, RegisterFormV
         self.contentView.addArrangedSubview(homeView)
 
         homeView.translatesAutoresizingMaskIntoConstraints = false
-        homeView.backgroundColor = .red
+//        homeView.backgroundColor = .red
         
         let constraints: [NSLayoutConstraint] = [
 //            homeView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
@@ -108,7 +108,7 @@ class HomeViewController: UIViewController, RequestButtonDelegate, RegisterFormV
         tableView.dataSource = self
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.backgroundColor = .themeBackground
-        tableView.backgroundColor = .blue
+//        tableView.backgroundColor = .blue
         
 //        self.view.addSubview(tableView)
         self.contentView.addArrangedSubview(tableView)
