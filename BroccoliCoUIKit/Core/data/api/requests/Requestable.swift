@@ -35,6 +35,7 @@ extension Requestable {
     var version: String { "" }
     var requestMethod: RequestMethod { .POST }
     var path: String { "/fakeAuth" }
+
     
     var headers: [String: String] { [:] }
     var bodyParams: [String: Any] { [:] }
